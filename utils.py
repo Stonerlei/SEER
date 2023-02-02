@@ -531,7 +531,7 @@ def filter_asserts():
 if __name__ == '__main__':
 
     if sys.argv[1] == 'create_vocabulary':
-        create_vocabulary('./phase2_dataset_final/', sys.argv[2])
+        create_vocabulary('./real_data_gen', sys.argv[2])
 
     elif sys.argv[1] == 'json_to_h5':
         json_to_h5(sys.argv[2], sys.argv[3], sys.argv[4])

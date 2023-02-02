@@ -1,0 +1,682 @@
+[
+    {
+        "0": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "0",
+            "T": "void testLoadFromFile() throws IOException { final var mapFile = tempDir.resolve(\"tempMap.map\"); String rectangularMap = \"\"\" 233 ###### #A..@# #...@# #....# #.a..# #..a.# ###### \"\"\"; Files.writeString(mapFile, rectangularMap); final var gameMap = SokobanGameFactory.loadGameMap(mapFile); assertEquals(6, gameMap.getMaxWidth()); assertEquals(7, gameMap.getMaxHeight()); assertEquals(233, gameMap.getUndoLimit().orElse(null)); }",
+            "C": "public static @NotNull GameMap loadGameMap(@NotNull Path mapFile) throws IOException { final var fileContent = Files.readString(mapFile); return GameMap.parse(fileContent); } public int getMaxWidth() { // FIXME return maxWidth; } public int getMaxHeight() { // FIXME return maxHeight; } public Optional<Integer> getUndoLimit() { // FIXME return undoLimit; }",
+            "label": "F"
+        }
+    },
+    {
+        "1": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "1",
+            "T": "void moveLeft() { assertEquals( Position.of(232, 233), new Move.Left(-1).nextPosition(pos) ); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); } public Left(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "2": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "2",
+            "T": "void testShouldStopWhenWin() { final var gameState = mock(GameState.class); when(gameState.isWin()).thenReturn(true); final var game = new SokobanGameForTesting(gameState); assertTrue(game.shouldStop()); }",
+            "C": "",
+            "label": "F"
+        }
+    },
+    {
+        "3": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "3",
+            "T": "void testMove() { String mapText = \"\"\" 233 ###### #A..@# #....# #a...# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(0)); assertTrue(result instanceof ActionResult.Success); verify(gameState, times(1)).move(any(), any()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "4": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "4",
+            "T": "void testPushBox() { String mapText = \"\"\" 233 ###### #A..@# #a...# #....# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(0)); assertTrue(result instanceof ActionResult.Success); verify(gameState, times(2)).move(any(), any()); verify(gameState, times(1)).checkpoint(); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "5": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "5",
+            "T": "void testHitWall() { String mapText = \"\"\" 233 ###### #A..@# ##...# #a...# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(0)); assertTrue(result instanceof ActionResult.Failed); verify(gameState, never()).move(any(), any()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "6": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "6",
+            "T": "void testBoxParsing() { final var gameMap = TestHelper.parseGameMap(rectangularMap); final var box = assertInstanceOf(Box.class, gameMap.getEntity(Position.of(2, 4))); assertNotNull(box); assertEquals(0, box.getPlayerId()); }",
+            "C": "public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap} public int getPlayerId() { return playerId; }",
+            "label": "F"
+        }
+    },
+    {
+        "7": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "7",
+            "T": "void testPlayerParsing() { final var gameMap = TestHelper.parseGameMap(rectangularMap); final var player = assertInstanceOf(Player.class, gameMap.getEntity(Position.of(1, 1))); assertNotNull(player); assertEquals(0, player.getId()); }",
+            "C": "public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap} public int getId() { return id; }",
+            "label": "F"
+        }
+    },
+    {
+        "8": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "8",
+            "T": "void testHeightForRectangularMap() { final var gameMap = TestHelper.parseGameMap(rectangularMap); assertEquals(7, gameMap.getMaxHeight()); }",
+            "C": "public int getMaxHeight() { // FIXME return maxHeight; }",
+            "label": "F"
+        }
+    },
+    {
+        "9": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "9",
+            "T": "void testWidthForRectangularMap() { final var gameMap = TestHelper.parseGameMap(rectangularMap); assertEquals(6, gameMap.getMaxWidth()); }",
+            "C": "public int getMaxWidth() { // FIXME return maxWidth; }",
+            "label": "F"
+        }
+    },
+    {
+        "10": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "10",
+            "T": "void testGetDestinations() { final var gameMap = TestHelper.parseGameMap(rectangularMap); assertEquals(2, gameMap.getDestinations().size()); assertInstanceOf(Empty.class, gameMap.getEntity(Position.of(4, 1))); }",
+            "C": "public @NotNull @Unmodifiable Set<Position> getDestinations() { // FIXME return gameMap.getDestinations(); } /** * Get the undo quota currently left, i.e., the maximum number of undo actions that can be performed from now on. * If undo is unlimited, * * @return the undo quota left (using {@link Optional#of(Object)}) if the game has an undo limit; * {@link Optional#empty()} public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap}",
+            "label": "F"
+        }
+    },
+    {
+        "11": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "11",
+            "T": "void testWallParsing() { final var gameMap = TestHelper.parseGameMap(rectangularMap); assertInstanceOf(Wall.class, gameMap.getEntity(Position.of(0, 0))); }",
+            "C": "public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap}",
+            "label": "F"
+        }
+    },
+    {
+        "12": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "12",
+            "T": "void testGetEntity() { final var gameMap = TestHelper.parseGameMap(rectangularMap); final var entity = gameMap.getEntity(Position.of(0, 0)); assertTrue(entity instanceof Wall); } private static final String nonRectangularMap = \"\"\" 233 ###### #A..@# #...@### #a....@## #.a.....# #..a.#### ###### \"\"\";",
+            "C": "public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap}",
+            "label": "F"
+        }
+    },
+    {
+        "13": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "13",
+            "T": "void testEmptyCellParsing() { final var gameMap = TestHelper.parseGameMap(rectangularMap); assertInstanceOf(Empty.class, gameMap.getEntity(Position.of(2, 1))); }",
+            "C": "public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap}",
+            "label": "F"
+        }
+    },
+    {
+        "14": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "14",
+            "T": "void testExit() { final var inputStream = fixValueStream(\"exit\"); final var inputEngine = new TerminalInputEngine(inputStream); final var action = inputEngine.fetchAction(); assertTrue(action instanceof Exit); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; }",
+            "label": "F"
+        }
+    },
+    {
+        "15": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "15",
+            "T": "void testWin() { final var testMap = TestHelper.parseGameMap(\"\"\" 233 ###### #A.a@# #..a@# ###### \"\"\"); final var gameState = new GameState(testMap); gameState.move(Position.of(3, 1), Position.of(4, 1)); gameState.move(Position.of(3, 2), Position.of(4, 2)); assertTrue(gameState.isWin()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void move(Position from, Position to) { // FIXME entityArray[to.x()][to.y()] = entityArray[from.x()][from.y()]; entityArray[from.x()][from.y()] = new Empty(); if (entityArray[to.x()][to.y()] instanceof Player p) playerPositions.put(p.getId(), to); } /** * Record a checkpoint of the game state, including: * <li>All current positions of entities in the game map.</li> * <li>Current undo quota</li> * <p> * Checkpoint is used in {@link GameState#undo()} public static @NotNull Position of(int x, int y) { return new Position(x, y); }",
+            "label": "F"
+        }
+    },
+    {
+        "16": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "16",
+            "T": "void testMove() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #A.a@# #..a@# ###### \"\"\" )); gameState.move(Position.of(1, 1), Position.of(2, 1)); assertEquals(Position.of(2, 1), gameState.getPlayerPositionById(0)); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void move(Position from, Position to) { // FIXME entityArray[to.x()][to.y()] = entityArray[from.x()][from.y()]; entityArray[from.x()][from.y()] = new Empty(); if (entityArray[to.x()][to.y()] instanceof Player p) playerPositions.put(p.getId(), to); } /** * Record a checkpoint of the game state, including: * <li>All current positions of entities in the game map.</li> * <li>Current undo quota</li> * <p> * Checkpoint is used in {@link GameState#undo()} public static @NotNull Position of(int x, int y) { return new Position(x, y); } public @Nullable Position getPlayerPositionById(int id) { // FIXME return playerPositions.get(id); }",
+            "label": "F"
+        }
+    },
+    {
+        "17": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "17",
+            "T": "void testPushBox() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #.Aa@# #..a@# ###### \"\"\" )); gameState.move(Position.of(3, 1), Position.of(4, 1)); gameState.move(Position.of(2, 1), Position.of(3, 1)); assertEquals(Position.of(3, 1), gameState.getPlayerPositionById(0)); assertInstanceOf(Box.class, gameState.getEntity(Position.of(4, 1))); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void move(Position from, Position to) { // FIXME entityArray[to.x()][to.y()] = entityArray[from.x()][from.y()]; entityArray[from.x()][from.y()] = new Empty(); if (entityArray[to.x()][to.y()] instanceof Player p) playerPositions.put(p.getId(), to); } /** * Record a checkpoint of the game state, including: * <li>All current positions of entities in the game map.</li> * <li>Current undo quota</li> * <p> * Checkpoint is used in {@link GameState#undo()} public static @NotNull Position of(int x, int y) { return new Position(x, y); } public @Nullable Position getPlayerPositionById(int id) { // FIXME return playerPositions.get(id); } public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap}",
+            "label": "F"
+        }
+    },
+    {
+        "18": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "18",
+            "T": "void testGetUndoLimit() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #.Aa@# #..a@# ###### \"\"\" )); assertEquals(233, gameState.getUndoQuota().orElse(null)); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Optional<Integer> getUndoQuota() { // FIXME return undoLimit; }",
+            "label": "F"
+        }
+    },
+    {
+        "19": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "19",
+            "T": "void testAllPlayerIds() { final var testMap = TestHelper.parseGameMap(\"\"\" 233 ###### #APp@# #xXa@@# ###### \"\"\"); final var gameState = new GameState(testMap); assertEquals(new HashSet<>(Arrays.asList(Position.of(1, 1), Position.of(2, 1), Position.of(2, 2))), gameState.getAllPlayerPositions()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public static @NotNull Position of(int x, int y) { return new Position(x, y); } public @NotNull Set<Position> getAllPlayerPositions() { // FIXME return playerPositions.values().stream().collect(Collectors.toSet()); }",
+            "label": "F"
+        }
+    },
+    {
+        "20": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "20",
+            "T": "void testUndoWhenThereIsCheckpoint() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #.Aa@# #..a@# ###### \"\"\" )); gameState.move(Position.of(3, 1), Position.of(4, 1)); gameState.move(Position.of(2, 1), Position.of(3, 1)); gameState.checkpoint(); gameState.undo(); assertEquals(Position.of(2, 1), gameState.getPlayerPositionById(0)); assertInstanceOf(Box.class, gameState.getEntity(Position.of(3, 1))); assertInstanceOf(Empty.class, gameState.getEntity(Position.of(4, 1))); assertEquals(232, gameState.getUndoQuota().orElse(null)); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void move(Position from, Position to) { // FIXME entityArray[to.x()][to.y()] = entityArray[from.x()][from.y()]; entityArray[from.x()][from.y()] = new Empty(); if (entityArray[to.x()][to.y()] instanceof Player p) playerPositions.put(p.getId(), to); } /** * Record a checkpoint of the game state, including: * <li>All current positions of entities in the game map.</li> * <li>Current undo quota</li> * <p> * Checkpoint is used in {@link GameState#undo()} public static @NotNull Position of(int x, int y) { return new Position(x, y); } public void checkpoint() { // FIXME Entity[][] copy = new Entity[gameMap.getMaxWidth()][gameMap.getMaxHeight()]; for (int x = 0; x < gameMap.getMaxWidth(); ++x) for (int y = 0; y < gameMap.getMaxHeight(); ++y) copy[x][y] = entityArray[x][y]; checkpointStack.push(copy); } public void undo() { // FIXME if (undoLimit.isPresent() && !checkpointStack.isEmpty()) undoLimit = Optional.of(undoLimit.get() - 1); playerPositions.clear(); if (!checkpointStack.isEmpty()) checkpointStack.pop(); final Function<Position, Entity> getSaved = checkpointStack.isEmpty() ? (Position p) -> gameMap.getEntity(p) : (Position p) -> checkpointStack.peek()[p.x()][p.y()]; for (int x = 0; x < gameMap.getMaxWidth(); ++x) for (int y = 0; y < gameMap.getMaxHeight(); ++y) { entityArray[x][y] = getSaved.apply(Position.of(x, y)); if (entityArray[x][y] instanceof Player p) playerPositions.put(p.getId(), Position.of(x, y)); } } /** * Get the maximum width of the game map. * This should be the same as that in {@link GameMap} public @Nullable Position getPlayerPositionById(int id) { // FIXME return playerPositions.get(id); } public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap} public Optional<Integer> getUndoQuota() { // FIXME return undoLimit; }",
+            "label": "F"
+        }
+    },
+    {
+        "21": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "21",
+            "T": "void testGameLoop() { final var gameState = mock(GameState.class); final var inputEngine = mock(TerminalInputEngine.class); final var renderingEngine = mock(TerminalRenderingEngine.class); when(gameState.isWin()).thenReturn(false); when(inputEngine.fetchAction()) .thenReturn(new InvalidInput(0, \"\")) .thenReturn(new Exit(0)); final var game = new TerminalSokobanGame(gameState, inputEngine, renderingEngine); game.run(); final var inOrder = inOrder(inputEngine, renderingEngine); // Before loop inOrder.verify(renderingEngine).render(eq(gameState)); // First round inOrder.verify(inputEngine).fetchAction(); inOrder.verify(renderingEngine).render(eq(gameState)); // Second round inOrder.verify(inputEngine).fetchAction(); inOrder.verify(renderingEngine).render(eq(gameState)); verify(gameState, atLeastOnce()).getUndoQuota(); verify(gameState, atLeast(0)).isWin(); verify(renderingEngine, atLeastOnce()).message(any()); }",
+            "C": "public InvalidInput(int initiator, @NotNull String message) { super(initiator); this.message = message; } public Exit(int initiator) { super(initiator); } public void run() { // FIXME renderingEngine.message(StringResources.GAME_READY_MESSAGE); while (!shouldStop()) { renderingEngine.render(state); if (state.getUndoQuota().isPresent()) renderingEngine .message(StringResources.UNDO_QUOTA_TEMPLATE.formatted(state.getUndoQuota().get().toString())); else renderingEngine.message(StringResources.UNDO_QUOTA_UNLIMITED); renderingEngine.message(\">>>\"); final var action = inputEngine.fetchAction(); final var result = processAction(action); if (result instanceof ActionResult.Failed f) renderingEngine.message(f.getReason()); } renderingEngine.render(state); renderingEngine.message(StringResources.GAME_EXIT_MESSAGE); if (state.isWin()) renderingEngine.message(StringResources.WIN_MESSAGE); }",
+            "label": "F"
+        }
+    },
+    {
+        "22": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "22",
+            "T": "void testTwoPlayers() { final var gameState = mock(GameState.class); final var inputEngine = mock(TerminalInputEngine.class); final var renderingEngine = mock(TerminalRenderingEngine.class); when(gameState.getAllPlayerPositions()).thenReturn(new HashSet<>(Arrays.asList(Position.of(1, 1), Position.of(1, 2)))); assertDoesNotThrow(() -> new TerminalSokobanGame(gameState, inputEngine, renderingEngine)); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); }",
+            "label": "F"
+        }
+    },
+    {
+        "23": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "23",
+            "T": "void testMessage() { final var stream = new CapturingStream(); final var randomString = String.valueOf(this.hashCode()); final var renderingEngine = new TerminalRenderingEngine(stream); renderingEngine.message(randomString); assertEquals(randomString + System.lineSeparator(), stream.getContent()); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; } public void message(@NotNull String content) { // FIXME // Hint: System.out is also a PrintStream. outputSteam.println(content); }",
+            "label": "F"
+        }
+    },
+    {
+        "24": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "24",
+            "T": "void testRender() { String testMap = \"\"\" 233 ###### #A..@# #...@### #a....@## #.a.....# #..a.#### ###### \"\"\"; final var gameState = new GameState(TestHelper.parseGameMap(testMap)); final var stream = new CapturingStream(); final var renderingEngine = new TerminalRenderingEngine(stream); renderingEngine.render(gameState); final var renderedContent = stream.getContent(); assertEquals(7, renderedContent.lines().count()); assertTrue(renderedContent.lines().allMatch(it -> it.length() >= 9 && it.length() <= 10)); // On Windows there may be \\n\\r final var lines = renderedContent.lines().toList(); assertEquals('#', lines.get(0).charAt(0)); assertEquals(' ', lines.get(0).charAt(8)); assertEquals('a', lines.get(3).charAt(1)); } static class CapturingStream extends PrintStream { public CapturingStream() { super(new ByteArrayOutputStream()); } public String getContent() { return ((ByteArrayOutputStream) this.out).toString(StandardCharsets.UTF_8); } }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; } public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "25": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "25",
+            "T": "void moveUp() { assertEquals( Position.of(233, 232), new Move.Up(-1).nextPosition(pos) ); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); } public Up(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "26": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "26",
+            "T": "void moveDown() { assertEquals( Position.of(233, 234), new Move.Down(-1).nextPosition(pos) ); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "27": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "27",
+            "T": "void moveRight() { assertEquals( Position.of(234, 233), new Move.Right(-1).nextPosition(pos) ); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); } public Right(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "28": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "28",
+            "T": "void testExceedingUndoQuota() { final var gameState = mock(GameState.class); when(gameState.getPlayerPositionById(anyInt())).thenReturn(Position.of(0, 0)); when(gameState.getUndoQuota()).thenReturn(Optional.of(0)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Undo(0)); assertTrue(result instanceof ActionResult.Failed); }",
+            "C": "public Undo(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "29": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "29",
+            "T": "void testExit() { final var gameState = mock(GameState.class); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Exit(0)); assertTrue(result instanceof ActionResult.Success); assertTrue(game.shouldStop()); }",
+            "C": "public Exit(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "30": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "30",
+            "T": "void testUndoUnlimited() { final var gameState = mock(GameState.class); when(gameState.getPlayerPositionById(anyInt())).thenReturn(Position.of(0, 0)); when(gameState.getUndoQuota()).thenReturn(Optional.empty()); final var game = new SokobanGameForTesting(gameState); for (int i = 0; i < 10000; i++) { final var result = game.feedActionForProcessing(new Undo(0)); assertTrue(result instanceof ActionResult.Success); } verify(gameState, times(10000)).undo(); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; } public Undo(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "31": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "31",
+            "T": "void testPushOtherPlayerBox() { String mapText = \"\"\" 233 ###### #AB.@# #b.a.# #@...# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(0)); assertTrue(result instanceof ActionResult.Failed); verify(gameState, never()).move(any(), any()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "32": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "32",
+            "T": "void testMoveNonExistingPlayer() { String mapText = \"\"\" 233 ###### #A..@# #a...# ##...# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(23)); assertTrue(result instanceof ActionResult.Failed); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "33": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "33",
+            "T": "void testCheckpointWhenNeed() { final var gameState = spy(new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #.Aa@# #..a@# ###### \"\"\" ))); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Right(0)); verify(gameState, times(1)).checkpoint(); assertInstanceOf(ActionResult.Success.class, result); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Right(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "34": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "34",
+            "T": "void testPushBoxAgainstWall() { String mapText = \"\"\" 233 ###### #A..@# #a...# ##...# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(0)); assertTrue(result instanceof ActionResult.Failed); verify(gameState, never()).move(any(), any()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "35": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "35",
+            "T": "void testCheckpointWhenNotNeed() { final var gameState = spy(new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #A.a@# #..a@# ###### \"\"\" ))); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Right(0)); verify(gameState, never()).checkpoint(); assertInstanceOf(ActionResult.Success.class, result); } private static class SokobanGameForTesting extends AbstractSokobanGame { protected SokobanGameForTesting(GameState gameState) { super(gameState); } @Override public void run() { } public ActionResult feedActionForProcessing(Action action) { return processAction(action); } }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Right(int initiator) { super(initiator); } public void run() { // FIXME renderingEngine.message(StringResources.GAME_READY_MESSAGE); while (!shouldStop()) { renderingEngine.render(state); if (state.getUndoQuota().isPresent()) renderingEngine .message(StringResources.UNDO_QUOTA_TEMPLATE.formatted(state.getUndoQuota().get().toString())); else renderingEngine.message(StringResources.UNDO_QUOTA_UNLIMITED); renderingEngine.message(\">>>\"); final var action = inputEngine.fetchAction(); final var result = processAction(action); if (result instanceof ActionResult.Failed f) renderingEngine.message(f.getReason()); } renderingEngine.render(state); renderingEngine.message(StringResources.GAME_EXIT_MESSAGE); if (state.isWin()) renderingEngine.message(StringResources.WIN_MESSAGE); } protected ActionResult processAction(@NotNull Action action) { // FIXME return switch (action) { case Exit e -> { willExit = true; yield new ActionResult.Success(e); } case InvalidInput i -> new ActionResult.Failed(i, StringResources.INVALID_INPUT_MESSAGE); case Move m -> { final var playerPos = state.getPlayerPositionById(m.getInitiator()); if (playerPos == null) yield new ActionResult.Failed(m, StringResources.PLAYER_NOT_FOUND); final var nextPlayerPos = m.nextPosition(playerPos); final var targetEntity = state.getEntity(nextPlayerPos); yield switch (targetEntity) { case Box b -> { if (b.getPlayerId() != m.getInitiator()) yield new ActionResult.Failed(m, \"You cannot move other players' boxes.\"); final var nextBoxPos = m.nextPosition(nextPlayerPos); final var farEntity = state.getEntity(nextBoxPos); if (!(farEntity instanceof Empty)) yield new ActionResult.Failed(m, \"Failed to push the box.\"); state.move(nextPlayerPos, nextBoxPos); state.move(playerPos, nextPlayerPos); state.checkpoint(); yield new ActionResult.Success(m); } case Empty e -> { state.move(playerPos, nextPlayerPos); yield new ActionResult.Success(m); } case Player p -> new ActionResult.Failed(m, \"You hit another player.\"); case Wall w -> new ActionResult.Failed(m, \"You hit a wall.\"); default -> new ActionResult.Failed(m, StringResources.INVALID_INPUT_MESSAGE); }; } case Undo u -> { if (state.getUndoQuota().orElse(1).equals(0)) yield new ActionResult.Failed(u, StringResources.UNDO_QUOTA_RUN_OUT); state.undo(); yield new ActionResult.Success(u); } default -> new ActionResult.Failed(action, StringResources.INVALID_INPUT_MESSAGE); }; }",
+            "label": "F"
+        }
+    },
+    {
+        "36": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "36",
+            "T": "void testHitAnotherPlayer() { String mapText = \"\"\" 233 ###### #A..@# #B...# #ab.@# ###### \"\"\"; final var testMap = TestHelper.parseGameMap(mapText); final var gameState = spy(new GameState(testMap)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Move.Down(0)); assertTrue(result instanceof ActionResult.Failed); verify(gameState, never()).move(any(), any()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public Down(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "37": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "37",
+            "T": "void testUndoWithinQuota() { final var gameState = mock(GameState.class); when(gameState.getPlayerPositionById(anyInt())).thenReturn(Position.of(0, 0)); when(gameState.getUndoQuota()).thenReturn(Optional.of(1)); final var game = new SokobanGameForTesting(gameState); final var result = game.feedActionForProcessing(new Undo(0)); verify(gameState, times(1)).undo(); assertTrue(result instanceof ActionResult.Success); }",
+            "C": "public Undo(int initiator) { super(initiator); }",
+            "label": "F"
+        }
+    },
+    {
+        "38": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "38",
+            "T": "void testInvalidInput() { final var game = new SokobanGameForTesting(mock(GameState.class)); final var message = String.valueOf(new Random().nextLong()); final var action = new InvalidInput(-1, message); final var result = game.feedActionForProcessing(action); assertTrue(result instanceof ActionResult.Failed); }",
+            "C": "public InvalidInput(int initiator, @NotNull String message) { super(initiator); this.message = message; }",
+            "label": "F"
+        }
+    },
+    {
+        "39": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "39",
+            "T": "void testUndoLimitParsing() { final var gameMap = TestHelper.parseGameMap(rectangularMap); assertEquals(233, gameMap.getUndoLimit().orElse(null)); }",
+            "C": "public Optional<Integer> getUndoLimit() { // FIXME return undoLimit; }",
+            "label": "F"
+        }
+    },
+    {
+        "40": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "40",
+            "T": "void testWidthForNonRectangularMap() { final var gameMap = TestHelper.parseGameMap(nonRectangularMap); assertEquals(9, gameMap.getMaxWidth()); }",
+            "C": "public int getMaxWidth() { // FIXME return maxWidth; }",
+            "label": "F"
+        }
+    },
+    {
+        "41": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "41",
+            "T": "void testTwoPlayersMap() { final var twoPlayersMap = \"\"\" 233 ###### #A..@# #..B@# #....# #.a..# #..b.# ###### \"\"\"; final var gameMap = TestHelper.parseGameMap(twoPlayersMap); final var playerIds = gameMap.getPlayerIds(); final var expectedIds = new HashSet<Integer>(); expectedIds.add(0); expectedIds.add(1); assertEquals(expectedIds, playerIds); }",
+            "C": "public Set<Integer> getPlayerIds() { // FIXME return playerIds; }",
+            "label": "F"
+        }
+    },
+    {
+        "42": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "42",
+            "T": "void testMapWithoutPlayer() { final var invalidMap = \"\"\" 233 ### #.# ### \"\"\"; assertThrowsExactly(IllegalArgumentException.class, () -> TestHelper.parseGameMap(invalidMap)); } // @Tag(TestKind.HIDDEN) // @Test // void testUnmatchedPlayersAndBoxes() { // final var invalidMap = \"\"\" // 233 // ###### // #A..@# // #...@# // #a.b@# // #.a.@# // #..a.# // ###### // \"\"\"; // assertThrowsExactly(IllegalArgumentException.class, () -> TestHelper.parseGameMap(invalidMap)); // }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "43": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "43",
+            "T": "void testManyPlayersMap() { final var manyPlayersMap = \"\"\" 233 ###### #A.P@@# #vCB@@# #.cpD@# #Ga.d@# #g.bV@# ###### \"\"\"; final var gameMap = TestHelper.parseGameMap(manyPlayersMap); final var playerIds = gameMap.getPlayerIds(); final var expectedIds = new HashSet<>(Arrays.asList( 0, 'P' - 'A', 'C' - 'A', 'B' - 'A', 'D' - 'A', 'G' - 'A', 'V' - 'A' )); assertEquals(expectedIds, playerIds); }",
+            "C": "public Set<Integer> getPlayerIds() { // FIXME return playerIds; }",
+            "label": "F"
+        }
+    },
+    {
+        "44": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "44",
+            "T": "void testHeightForNonRectangularMap() { final var gameMap = TestHelper.parseGameMap(nonRectangularMap); assertEquals(7, gameMap.getMaxHeight()); }",
+            "C": "public int getMaxHeight() { // FIXME return maxHeight; }",
+            "label": "F"
+        }
+    },
+    {
+        "45": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "45",
+            "T": "void testDuplicatedPlayers() { final var invalidMap = \"\"\" 233 ###### #A..@# #..A@# #....# #.a..# #..b.# ###### \"\"\"; assertThrowsExactly(IllegalArgumentException.class, () -> TestHelper.parseGameMap(invalidMap)); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "46": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "46",
+            "T": "void testParseMapWithoutUndoLimit() { final var invalidMap = String.join(\"\\n\", rectangularMap.lines().skip(1).toList()); assertThrows(Exception.class, () -> TestHelper.parseGameMap(invalidMap)); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "47": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "47",
+            "T": "void testInsufficientDestinations() { final var invalidMap = \"\"\" 233 ###### #A..@# #...@# #a...# #.a..# #..a.# ###### \"\"\"; assertThrowsExactly(IllegalArgumentException.class, () -> TestHelper.parseGameMap(invalidMap)); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "48": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "48",
+            "T": "void testSuperLargeMap() { assertDoesNotThrow(() -> { try { new GameMap(Integer.MAX_VALUE, Integer.MAX_VALUE, Collections.emptySet(), 0); } catch (OutOfMemoryError e) { throw new RuntimeException(e); } }); }",
+            "C": "public GameMap(int maxWidth, int maxHeight, Set<Position> destinations, int undoLimit) { // FIXME this.maxWidth = maxWidth; this.maxHeight = maxHeight; this.undoLimit = (undoLimit < 0) ? Optional.empty() : Optional.of(undoLimit); this.entityArray = new Entity[maxWidth][maxHeight]; this.destinations = destinations; this.playerIds = new HashSet<>(); } /** * Parses the map from a string representation. * The first line is undo limit. * Starting from the second line, the game map is represented as follows, * <li># represents a {@link Wall}</li> * <li>@ represents a box destination.</li> * <li>Any upper-case letter represents a {@link Player}.</li> * <li> * Any lower-case letter represents a {@link Box} that is only movable by the player with the corresponding upper-case letter. * For instance, box \"a\" can only be moved by player \"A\" and not movable by player \"B\". * </li> * <li>. represents an {@link Empty} position in the map, meaning there is no player or box currently at this position.</li> * <p> * Notes: * <li> * There can be at most 26 players. * All implementations of classes in the hk.ust.comp3021.game package should support up to 26 players. * </li> * <li> * For simplicity, we assume the given map is bounded with a closed boundary. * There is no need to check this point. * </li> * <li> * Example maps can be found in \"src/main/resources\". * </li> * * @param mapText The string representation. * @return The parsed GameMap object. * @throws IllegalArgumentException if undo limit is negative but not -1. * @throws IllegalArgumentException if there are multiple same upper-case letters, i.e., one player can only exist at one position. * @throws IllegalArgumentException if there are no players in the map. * @throws IllegalArgumentException if the number of boxes is not equal to the number of box destinations. * @throws IllegalArgumentException if there are boxes whose {@link Box#getPlayerId()} public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "49": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "49",
+            "T": "void testInvalidUndoLimit() { final var invalidMap = \"\"\" -233 ###### #A..@# #...@# #a.b@# #.a.@# #..a.# ###### \"\"\"; assertThrowsExactly(IllegalArgumentException.class, () -> TestHelper.parseGameMap(invalidMap)); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "50": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "50",
+            "T": "void testEmptyMap() { final var invalidMap = \"\"; assertThrows(Exception.class, () -> TestHelper.parseGameMap(invalidMap)); }",
+            "C": "public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    },
+    {
+        "51": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "51",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "52": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "52",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "53": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "53",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "54": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "54",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "55": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "55",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "56": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "56",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "57": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "57",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "58": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "58",
+            "T": "void testMove(String input, String name, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU.getClass().getSimpleName().equals(name) || actionL.getClass().getSimpleName().equals(name)); assertTrue(actionU.getInitiator() == playerId || actionL.getInitiator() == playerId); } private InputStream fixValueStream(String content) { final var bytes = content.getBytes(StandardCharsets.UTF_8); return new ByteArrayInputStream(bytes); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; } public int getInitiator() { return initiator; }",
+            "label": "F"
+        }
+    },
+    {
+        "59": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "59",
+            "T": "void testUndo(String input, int playerId) { final var inputStreamU = fixValueStream(input.toUpperCase()); final var inputStreamL = fixValueStream(input.toLowerCase()); final var inputEngineU = new TerminalInputEngine(inputStreamU); final var inputEngineL = new TerminalInputEngine(inputStreamL); final var actionU = inputEngineU.fetchAction(); final var actionL = inputEngineL.fetchAction(); assertTrue(actionU instanceof Undo || actionL instanceof Undo); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; }",
+            "label": "F"
+        }
+    },
+    {
+        "60": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "60",
+            "T": "void testInvalidInput() { final var inputStream = fixValueStream(\"blah blah\"); final var inputEngine = new TerminalInputEngine(inputStream); final var action = inputEngine.fetchAction(); assertTrue(action instanceof InvalidInput); }",
+            "C": "public TerminalInputEngine(InputStream terminalStream) { this.terminalScanner = new Scanner(terminalStream); } public @NotNull Action fetchAction() { // FIXME final var inputLine = terminalScanner.nextLine(); final var inputWords = inputLine.split(\"\\\\s+\"); if (inputWords.length == 0) return new InvalidInput(0, StringResources.INVALID_INPUT_MESSAGE); return switch (inputWords[0].toLowerCase()) { case \"a\" -> new Move.Left(0); case \"s\" -> new Move.Down(0); case \"w\" -> new Move.Up(0); case \"d\" -> new Move.Right(0); case \"h\" -> new Move.Left(1); case \"j\" -> new Move.Down(1); case \"k\" -> new Move.Up(1); case \"l\" -> new Move.Right(1); case \"u\" -> new Undo(-1); case StringResources.EXIT_COMMAND_TEXT -> new Exit(-1); default -> new InvalidInput(-1, StringResources.INVALID_INPUT_MESSAGE); }; }",
+            "label": "F"
+        }
+    },
+    {
+        "61": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "61",
+            "T": "void testUndoWhenThereIsNoMove() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #A.a@# #..a@# ###### \"\"\" )); gameState.undo(); assertEquals(233, gameState.getUndoQuota().orElse(null)); } private Entity generateEntity(int key) { return switch (key % 4) { case 0 -> new Box(0); case 1 -> new Empty(); case 2 -> new Player(0); case 3 -> new Wall(); default -> throw new ShouldNotReachException(); }; }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void undo() { // FIXME if (undoLimit.isPresent() && !checkpointStack.isEmpty()) undoLimit = Optional.of(undoLimit.get() - 1); playerPositions.clear(); if (!checkpointStack.isEmpty()) checkpointStack.pop(); final Function<Position, Entity> getSaved = checkpointStack.isEmpty() ? (Position p) -> gameMap.getEntity(p) : (Position p) -> checkpointStack.peek()[p.x()][p.y()]; for (int x = 0; x < gameMap.getMaxWidth(); ++x) for (int y = 0; y < gameMap.getMaxHeight(); ++y) { entityArray[x][y] = getSaved.apply(Position.of(x, y)); if (entityArray[x][y] instanceof Player p) playerPositions.put(p.getId(), Position.of(x, y)); } } /** * Get the maximum width of the game map. * This should be the same as that in {@link GameMap} public Optional<Integer> getUndoQuota() { // FIXME return undoLimit; } public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; } public Box(int playerId) { this.playerId = playerId; } public Player(int id) { this.id = id; } public ShouldNotReachException() { super(\"This branch should not be reached.\"); }",
+            "label": "F"
+        }
+    },
+    {
+        "62": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "62",
+            "T": "void testGetUndoUnlimited() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" -1 ###### #.Aa@# #..a@# ###### \"\"\" )); assertTrue(gameState.getUndoQuota().isEmpty()); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } }",
+            "label": "F"
+        }
+    },
+    {
+        "63": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "63",
+            "T": "void testMapCopying() { final var maxWidth = 2333; final var maxHeight = 2333; final var random = new Random(); final var randomEntities = Stream.generate(() -> Position.of(random.nextInt(maxWidth), random.nextInt(maxHeight))) .distinct() .limit(100) .collect(Collectors.toMap(Function.identity(), it -> generateEntity(it.x()))); final var firstPos = randomEntities.keySet().stream().findFirst(); assertTrue(firstPos.isPresent()); final var gameMap = new GameMap(maxWidth, maxHeight, Collections.singleton(firstPos.get()), 233); randomEntities.forEach(gameMap::putEntity); final var gameState = new GameState(gameMap); final var randomPosition = randomEntities.keySet().stream().findAny(); assertTrue(randomPosition.isPresent()); gameMap.putEntity(randomPosition.get(), new Empty()); randomEntities.forEach((p, e) -> assertEquals(e, gameState.getEntity(p))); assertEquals(233, gameState.getUndoQuota().orElse(null)); assertEquals(2333, gameState.getMapMaxHeight()); assertEquals(2333, gameState.getMapMaxWidth()); assertEquals(1, gameState.getDestinations().size()); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); } public GameMap(int maxWidth, int maxHeight, Set<Position> destinations, int undoLimit) { // FIXME this.maxWidth = maxWidth; this.maxHeight = maxHeight; this.undoLimit = (undoLimit < 0) ? Optional.empty() : Optional.of(undoLimit); this.entityArray = new Entity[maxWidth][maxHeight]; this.destinations = destinations; this.playerIds = new HashSet<>(); } /** * Parses the map from a string representation. * The first line is undo limit. * Starting from the second line, the game map is represented as follows, * <li># represents a {@link Wall}</li> * <li>@ represents a box destination.</li> * <li>Any upper-case letter represents a {@link Player}.</li> * <li> * Any lower-case letter represents a {@link Box} that is only movable by the player with the corresponding upper-case letter. * For instance, box \"a\" can only be moved by player \"A\" and not movable by player \"B\". * </li> * <li>. represents an {@link Empty} position in the map, meaning there is no player or box currently at this position.</li> * <p> * Notes: * <li> * There can be at most 26 players. * All implementations of classes in the hk.ust.comp3021.game package should support up to 26 players. * </li> * <li> * For simplicity, we assume the given map is bounded with a closed boundary. * There is no need to check this point. * </li> * <li> * Example maps can be found in \"src/main/resources\". * </li> * * @param mapText The string representation. * @return The parsed GameMap object. * @throws IllegalArgumentException if undo limit is negative but not -1. * @throws IllegalArgumentException if there are multiple same upper-case letters, i.e., one player can only exist at one position. * @throws IllegalArgumentException if there are no players in the map. * @throws IllegalArgumentException if the number of boxes is not equal to the number of box destinations. * @throws IllegalArgumentException if there are boxes whose {@link Box#getPlayerId()} public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void putEntity(Position position, Entity entity) { // FIXME if (0 <= position.x() && position.x() < maxWidth && 0 <= position.y() && position.y() < maxHeight) { entityArray[position.x()][position.y()] = entity; if (entity instanceof Player player) playerIds.add(player.getId()); } } public @Nullable Entity getEntity(@NotNull Position position) { // FIXME if (0 <= position.x() && position.x() < gameMap.getMaxWidth() && 0 <= position.y() && position.y() < gameMap.getMaxHeight()) return entityArray[position.x()][position.y()]; return null; } /** * Get all box destination positions as a set in the game map. * This should be the same as that in {@link GameMap} public Optional<Integer> getUndoQuota() { // FIXME return undoLimit; } public int getMapMaxHeight() { // FIXME return gameMap.getMaxHeight(); } public int getMapMaxWidth() { // FIXME return gameMap.getMaxWidth(); } /** * Get the maximum height of the game map. * This should be the same as that in {@link GameMap} public @NotNull @Unmodifiable Set<Position> getDestinations() { // FIXME return gameMap.getDestinations(); } /** * Get the undo quota currently left, i.e., the maximum number of undo actions that can be performed from now on. * If undo is unlimited, * * @return the undo quota left (using {@link Optional#of(Object)}) if the game has an undo limit; * {@link Optional#empty()}",
+            "label": "F"
+        }
+    },
+    {
+        "64": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "64",
+            "T": "void testUndoWhenThereIsMoveButNoCheckpoint() { final var gameState = new GameState(TestHelper.parseGameMap(\"\"\" 233 ###### #A.a@# #..a@# ###### \"\"\" )); gameState.move(Position.of(1, 1), Position.of(2, 1)); gameState.undo(); assertEquals(233, gameState.getUndoQuota().orElse(null)); }",
+            "C": "public GameState(@NotNull GameMap map) { // FIXME this.gameMap = map; this.undoLimit = map.getUndoLimit(); this.checkpointStack = new ArrayDeque<>(); this.entityArray = new Entity[map.getMaxWidth()][map.getMaxHeight()]; this.playerPositions = new HashMap<>(); for (int x = 0; x < map.getMaxWidth(); ++x) for (int y = 0; y < map.getMaxHeight(); ++y){ this.entityArray[x][y] = map.getEntity(Position.of(x, y)); if (this.entityArray[x][y] instanceof Player p) this.playerPositions.put(p.getId(), Position.of(x, y)); } } public void move(Position from, Position to) { // FIXME entityArray[to.x()][to.y()] = entityArray[from.x()][from.y()]; entityArray[from.x()][from.y()] = new Empty(); if (entityArray[to.x()][to.y()] instanceof Player p) playerPositions.put(p.getId(), to); } /** * Record a checkpoint of the game state, including: * <li>All current positions of entities in the game map.</li> * <li>Current undo quota</li> * <p> * Checkpoint is used in {@link GameState#undo()} public static @NotNull Position of(int x, int y) { return new Position(x, y); } public void undo() { // FIXME if (undoLimit.isPresent() && !checkpointStack.isEmpty()) undoLimit = Optional.of(undoLimit.get() - 1); playerPositions.clear(); if (!checkpointStack.isEmpty()) checkpointStack.pop(); final Function<Position, Entity> getSaved = checkpointStack.isEmpty() ? (Position p) -> gameMap.getEntity(p) : (Position p) -> checkpointStack.peek()[p.x()][p.y()]; for (int x = 0; x < gameMap.getMaxWidth(); ++x) for (int y = 0; y < gameMap.getMaxHeight(); ++y) { entityArray[x][y] = getSaved.apply(Position.of(x, y)); if (entityArray[x][y] instanceof Player p) playerPositions.put(p.getId(), Position.of(x, y)); } } /** * Get the maximum width of the game map. * This should be the same as that in {@link GameMap} public Optional<Integer> getUndoQuota() { // FIXME return undoLimit; }",
+            "label": "F"
+        }
+    },
+    {
+        "65": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "65",
+            "T": "void testGameExit() { final var gameState = mock(GameState.class); final var inputEngine = mock(TerminalInputEngine.class); final var renderingEngine = mock(TerminalRenderingEngine.class); when(gameState.isWin()).thenReturn(false, false, false); when(inputEngine.fetchAction()) .thenReturn(new InvalidInput(0, \"\"), new InvalidInput(0, \"\"), new Exit(0)); final var game = new TerminalSokobanGame(gameState, inputEngine, renderingEngine); game.run(); verify(renderingEngine, atLeastOnce()).message(any()); }",
+            "C": "public InvalidInput(int initiator, @NotNull String message) { super(initiator); this.message = message; } public Exit(int initiator) { super(initiator); } public void run() { // FIXME renderingEngine.message(StringResources.GAME_READY_MESSAGE); while (!shouldStop()) { renderingEngine.render(state); if (state.getUndoQuota().isPresent()) renderingEngine .message(StringResources.UNDO_QUOTA_TEMPLATE.formatted(state.getUndoQuota().get().toString())); else renderingEngine.message(StringResources.UNDO_QUOTA_UNLIMITED); renderingEngine.message(\">>>\"); final var action = inputEngine.fetchAction(); final var result = processAction(action); if (result instanceof ActionResult.Failed f) renderingEngine.message(f.getReason()); } renderingEngine.render(state); renderingEngine.message(StringResources.GAME_EXIT_MESSAGE); if (state.isWin()) renderingEngine.message(StringResources.WIN_MESSAGE); }",
+            "label": "F"
+        }
+    },
+    {
+        "66": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "66",
+            "T": "void testGameWin() { final var gameState = mock(GameState.class); final var inputEngine = mock(TerminalInputEngine.class); final var renderingEngine = mock(TerminalRenderingEngine.class); when(gameState.isWin()).thenReturn(false, false, false, true); when(inputEngine.fetchAction()) .thenReturn(new InvalidInput(0, \"\")); final var game = new TerminalSokobanGame(gameState, inputEngine, renderingEngine); game.run(); verify(gameState, atLeastOnce()).isWin(); verify(renderingEngine, atLeastOnce()).message(any()); }",
+            "C": "public InvalidInput(int initiator, @NotNull String message) { super(initiator); this.message = message; } public void run() { // FIXME renderingEngine.message(StringResources.GAME_READY_MESSAGE); while (!shouldStop()) { renderingEngine.render(state); if (state.getUndoQuota().isPresent()) renderingEngine .message(StringResources.UNDO_QUOTA_TEMPLATE.formatted(state.getUndoQuota().get().toString())); else renderingEngine.message(StringResources.UNDO_QUOTA_UNLIMITED); renderingEngine.message(\">>>\"); final var action = inputEngine.fetchAction(); final var result = processAction(action); if (result instanceof ActionResult.Failed f) renderingEngine.message(f.getReason()); } renderingEngine.render(state); renderingEngine.message(StringResources.GAME_EXIT_MESSAGE); if (state.isWin()) renderingEngine.message(StringResources.WIN_MESSAGE); }",
+            "label": "F"
+        }
+    },
+    {
+        "67": {
+            "dataset": "COMP 3021",
+            "project": "bkwak",
+            "bug_id": "67",
+            "T": "void testMoreThanTwoPlayers() { final var gameState = mock(GameState.class); final var inputEngine = mock(TerminalInputEngine.class); final var renderingEngine = mock(TerminalRenderingEngine.class); when(gameState.getAllPlayerPositions()).thenReturn(new HashSet<>(Arrays.asList(Position.of(1, 1), Position.of(1, 2), Position.of(1, 3)))); assertThrowsExactly(IllegalArgumentException.class, () -> new TerminalSokobanGame(gameState, inputEngine, renderingEngine)); }",
+            "C": "public static @NotNull Position of(int x, int y) { return new Position(x, y); } public TerminalRenderingEngine(PrintStream outputSteam) { this.outputSteam = outputSteam; }",
+            "label": "F"
+        }
+    }
+]
