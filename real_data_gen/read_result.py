@@ -2,6 +2,10 @@ import csv
 import os
 import json
 import utils
+from build_method_set import build_method_set
+import time
+import sys
+
 
 def read_metadata(metadata):
     # split the string by '/'
@@ -32,6 +36,8 @@ def test_extract(student_id, class_id, test_id):
             for j in range(i, len(lines)-1):
                 if lines[j].strip().startswith('@Tag'):
                     break
+                if lines[j].strip().startswith('assert'):
+                    continue
                 test += lines[j]
             test = test.strip().replace('\n', ' ')
             test = ' '.join(test.split())
@@ -39,7 +45,7 @@ def test_extract(student_id, class_id, test_id):
 
 def method_extract(student_id, test):
     """extract all the method code the test invokes"""
-    method_set = json.load(open(f'./real_data_gen/method_set.json', 'r'))
+    method_set = build_method_set(student_id, f'./real_data_gen/method_set.json')
     visited = []
     method = ''
     for token in test.split():
@@ -66,40 +72,65 @@ def method_extract(student_id, test):
     return method
 
 
-student_id = 'bkwak'
 repo_path = './repositories'
+student_ids = os.listdir(repo_path)
+student_ids.remove('.DS_Store')
+student_ids.remove('pyip')
 methods = []
 tests = []
 labels = []
-for filename in ['public-tests.tsv', 'hidden-tests.tsv']:
-    f = open(f'{repo_path}/{student_id}/{filename}', 'r')
-    reader = csv.reader(f, delimiter='\t')
-    metadata = reader.__next__()
-    class_ids, test_ids = read_metadata(metadata)
-    labels += reader.__next__()
-    f.close()
+triplets = {}
+accumulate = 0
+if len(sys.argv) > 1:
+    target_test = sys.argv[1]
+else:
+    target_test = None
 
-    for i in range(len(class_ids)):
-        test = test_extract(student_id, class_ids[i], test_ids[i])
-        tests.append(test)
-        # print(class_ids[i])
-        # print(test_ids[i])
-        method = method_extract(student_id, test)
-        # print(test)
-        methods.append(method)
+for student_id in student_ids:
+    for filename in ['public-tests.tsv', 'hidden-tests.tsv']:
+        f = open(f'{repo_path}/{student_id}/{filename}', 'r')
+        reader = csv.reader(f, delimiter='\t')
+        metadata = reader.__next__()
+        class_ids, test_ids = read_metadata(metadata)
+        labels += reader.__next__()
+        f.close()
 
-# construct triplets
-triplets = []
-for i in range(len(methods)):
-    tripet = {}
-    tripet[str(i)] = {}
-    tripet[str(i)]['dataset'] = "COMP 3021"
-    tripet[str(i)]['project'] = student_id
-    tripet[str(i)]['bug_id'] = str(i)
-    tripet[str(i)]['T'] = tests[i]
-    tripet[str(i)]['C'] = methods[i]
-    tripet[str(i)]['label'] = 'P' if labels[i] == 1 else 'F'
-    triplets.append(tripet)
+        for i in range(len(class_ids)):
+            if target_test is not None:
+                if metadata[i].replace('[', '').replace(']', '').replace('(', '').replace(')', '') != target_test:
+                    continue
+            test = test_extract(student_id, class_ids[i], test_ids[i])
+            tests.append(test)
+            # print(class_ids[i])
+            # print(test_ids[i])
+            method = method_extract(student_id, test)
+            # print(test)
+            methods.append(method)
+            triplets[str(accumulate)] = {}
+            triplets[str(accumulate)]['dataset'] = "COMP 3021"
+            triplets[str(accumulate)]['project'] = student_id
+            triplets[str(accumulate)]['bug_id'] = metadata[i]
+            triplets[str(accumulate)]['T'] = tests[accumulate]
+            triplets[str(accumulate)]['C'] = methods[accumulate]
+            triplets[str(accumulate)]['label'] = 'P' if labels[accumulate] == '1' else 'F'
+            accumulate += 1
+
 outputFile = f'./real_data_gen/triplets.json'
 with open(outputFile, 'w') as f:
     json.dump(triplets, f, indent=4)
+
+# for test_id in metadata:
+#     triplets_separated = {}
+#     for i in triplets:
+#         if triplets[i]['bug_id'] == test_id:
+#             triplets_separated[i] = triplets[i]
+#     f = open(outputFile, 'w')
+#     json.dump(triplets_separated, f, indent=4)
+#     f.close()
+#     os.system('python3 ./real_data_gen/create_vocab.py')
+#     os.system('python3 ./real_data_gen/json_to_h5.py')
+#     os.system('python3 ./learning/test.py')
+#     os.system('python3 ./real_data_gen/analyze_results.py ' + test_id)
+#     print('sleeping for 3 seconds...')
+#     time.sleep(3)
+

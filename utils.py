@@ -152,29 +152,20 @@ def export_vocabulary(triplets, filtered_data, vocabulary, vocab_type):
     """
         this function exports vocabulary to json file
     """
-    for project_triplet in triplets:
-        json_file = {}
-        with open(filtered_data + project_triplet) as fr:
-            json_file = json.load(fr)
-        
-        for triplet_id in json_file:
-            source_code_pos = json_file[triplet_id]['C'].split()
-            source_code_pos_diff = ' '.join(json_file[triplet_id]['diff_C+']).split()
-            source_code_neg = json_file[triplet_id]['C-'].split()
-            source_code_neg_diff = ' '.join(json_file[triplet_id]['diff_C-']).split()
-            test_code_tokens = json_file[triplet_id]['T'].split()
+    print(triplets[0])
+    triplets = json.load(open(f'{filtered_data}/{triplets[0]}', 'r'))
+    for triplet in triplets:
+        for key in triplet.keys():
+            source_code_pos = triplet[key]['C'].split()
+            test_code_tokens = triplet[key]['T'].split()
 
-            if vocab_type == 'code':                
-                vocabulary = insert_to_vocabulary(source_code_pos, vocabulary)
-                vocabulary = insert_to_vocabulary(source_code_neg, vocabulary)
-            elif vocab_type == 'test':                
-                vocabulary = insert_to_vocabulary(test_code_tokens, vocabulary)
-            else:
-                vocabulary = insert_to_vocabulary(source_code_pos, vocabulary)
-                vocabulary = insert_to_vocabulary(source_code_pos_diff, vocabulary)
-                vocabulary = insert_to_vocabulary(source_code_neg, vocabulary)
-                vocabulary = insert_to_vocabulary(source_code_neg_diff, vocabulary)
-                vocabulary = insert_to_vocabulary(test_code_tokens, vocabulary)
+        if vocab_type == 'code':                
+            vocabulary = insert_to_vocabulary(source_code_pos, vocabulary)
+        elif vocab_type == 'test':                
+            vocabulary = insert_to_vocabulary(test_code_tokens, vocabulary)
+        else:
+            vocabulary = insert_to_vocabulary(source_code_pos, vocabulary)
+            vocabulary = insert_to_vocabulary(test_code_tokens, vocabulary)
 
     return vocabulary
 
@@ -531,7 +522,7 @@ def filter_asserts():
 if __name__ == '__main__':
 
     if sys.argv[1] == 'create_vocabulary':
-        create_vocabulary('./real_data_gen', sys.argv[2])
+        create_vocabulary('./real_data_gen/', sys.argv[2])
 
     elif sys.argv[1] == 'json_to_h5':
         json_to_h5(sys.argv[2], sys.argv[3], sys.argv[4])

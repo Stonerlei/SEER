@@ -1,0 +1,579 @@
+engine:junit-jupiter/class:hk.ust.comp3021.SokobanGameFactoryTest/method:testLoadFromFile
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.actions.MoveTest/method:moveLeft
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testShouldStopWhenWin
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testMove
+num_rows: 78
+tp: 69
+fp: 5
+tn: 0
+fn: 4
+accuracy: 69/78 = 0.8846
+precision: 69/74 = 0.9324
+recall: 69/73 = 0.9452
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testPushBox
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testHitWall
+num_rows: 78
+tp: 69
+fp: 5
+tn: 0
+fn: 4
+accuracy: 69/78 = 0.8846
+precision: 69/74 = 0.9324
+recall: 69/73 = 0.9452
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testBoxParsing
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testPlayerParsing
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testHeightForRectangularMap
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testWidthForRectangularMap
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testGetDestinations
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testWallParsing
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testGetEntity
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testEmptyCellParsing
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/method:testExit
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testWin
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testMove
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testPushBox
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testGetUndoLimit
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testAllPlayerIds
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testUndoWhenThereIsCheckpoint
+num_rows: 78
+tp: 66
+fp: 5
+tn: 0
+fn: 7
+accuracy: 66/78 = 0.8462
+precision: 66/71 = 0.9296
+recall: 66/73 = 0.9041
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalSokobanGameTest/method:testGameLoop
+num_rows: 78
+tp: 3
+fp: 0
+tn: 5
+fn: 70
+accuracy: 8/78 = 0.1026
+precision: 3/3 = 1.0
+recall: 3/73 = 0.0411
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalSokobanGameTest/method:testTwoPlayers
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalRenderingEngineTest/method:testMessage
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalRenderingEngineTest/method:testRender
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.actions.MoveTest/method:moveUp
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.actions.MoveTest/method:moveDown
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.actions.MoveTest/method:moveRight
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testExceedingUndoQuota
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testExit
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testUndoUnlimited
+num_rows: 78
+tp: 67
+fp: 4
+tn: 1
+fn: 6
+accuracy: 68/78 = 0.8718
+precision: 67/71 = 0.9437
+recall: 67/73 = 0.9178
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testPushOtherPlayerBox
+num_rows: 78
+tp: 69
+fp: 5
+tn: 0
+fn: 4
+accuracy: 69/78 = 0.8846
+precision: 69/74 = 0.9324
+recall: 69/73 = 0.9452
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testMoveNonExistingPlayer
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testCheckpointWhenNeed
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testPushBoxAgainstWall
+num_rows: 78
+tp: 69
+fp: 5
+tn: 0
+fn: 4
+accuracy: 69/78 = 0.8846
+precision: 69/74 = 0.9324
+recall: 69/73 = 0.9452
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testCheckpointWhenNotNeed
+num_rows: 78
+tp: 45
+fp: 0
+tn: 5
+fn: 28
+accuracy: 50/78 = 0.641
+precision: 45/45 = 1.0
+recall: 45/73 = 0.6164
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testHitAnotherPlayer
+num_rows: 78
+tp: 69
+fp: 5
+tn: 0
+fn: 4
+accuracy: 69/78 = 0.8846
+precision: 69/74 = 0.9324
+recall: 69/73 = 0.9452
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testUndoWithinQuota
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.AbstractSokobanGameTest/method:testInvalidInput
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testUndoLimitParsing
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testWidthForNonRectangularMap
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testTwoPlayersMap
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testMapWithoutPlayer
+num_rows: 78
+tp: 67
+fp: 4
+tn: 1
+fn: 6
+accuracy: 68/78 = 0.8718
+precision: 67/71 = 0.9437
+recall: 67/73 = 0.9178
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testManyPlayersMap
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testHeightForNonRectangularMap
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testDuplicatedPlayers
+num_rows: 78
+tp: 0
+fp: 0
+tn: 5
+fn: 73
+accuracy: 5/78 = 0.0641
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testParseMapWithoutUndoLimit
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testInsufficientDestinations
+num_rows: 78
+tp: 0
+fp: 0
+tn: 5
+fn: 73
+accuracy: 5/78 = 0.0641
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testSuperLargeMap
+num_rows: 78
+tp: 10
+fp: 1
+tn: 4
+fn: 63
+accuracy: 14/78 = 0.1795
+precision: 10/11 = 0.9091
+recall: 10/73 = 0.137
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testInvalidUndoLimit
+num_rows: 78
+tp: 0
+fp: 0
+tn: 5
+fn: 73
+accuracy: 5/78 = 0.0641
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameMapTest/method:testEmptyMap
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testMovejava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/test-template:testUndojava.lang.String,
+num_rows: 0
+tp: 0
+fp: 0
+tn: 0
+fn: 0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalInputEngineTest/method:testInvalidInput
+num_rows: 78
+tp: 72
+fp: 5
+tn: 0
+fn: 1
+accuracy: 72/78 = 0.9231
+precision: 72/77 = 0.9351
+recall: 72/73 = 0.9863
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testUndoWhenThereIsNoMove
+num_rows: 78
+tp: 67
+fp: 5
+tn: 0
+fn: 6
+accuracy: 67/78 = 0.859
+precision: 67/72 = 0.9306
+recall: 67/73 = 0.9178
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testGetUndoUnlimited
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testMapCopying
+num_rows: 78
+tp: 69
+fp: 5
+tn: 0
+fn: 4
+accuracy: 69/78 = 0.8846
+precision: 69/74 = 0.9324
+recall: 69/73 = 0.9452
+engine:junit-jupiter/class:hk.ust.comp3021.game.GameStateTest/method:testUndoWhenThereIsMoveButNoCheckpoint
+num_rows: 78
+tp: 12
+fp: 1
+tn: 4
+fn: 61
+accuracy: 16/78 = 0.2051
+precision: 12/13 = 0.9231
+recall: 12/73 = 0.1644
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalSokobanGameTest/method:testGameExit
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalSokobanGameTest/method:testGameWin
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
+engine:junit-jupiter/class:hk.ust.comp3021.tui.TerminalSokobanGameTest/method:testMoreThanTwoPlayers
+num_rows: 78
+tp: 73
+fp: 5
+tn: 0
+fn: 0
+accuracy: 73/78 = 0.9359
+precision: 73/78 = 0.9359
+recall: 73/73 = 1.0
